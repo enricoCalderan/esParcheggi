@@ -20,8 +20,7 @@ public class ZonaStradale implements AreaSosta {
 
     // Metodo helper PRIVATO: nessuno da fuori può vederlo o usarlo
     private double decodificaTariffa(ZonaTariffaria z) {
-        // Use the enum name as a String in the switch to avoid compile-time
-        // dependency on specific enum constant identifiers.
+ 
         if (z == null) throw new IllegalArgumentException("Zona nulla");
         switch (z.name()) {
             case "ZONA_A": return 3.00;

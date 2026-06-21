@@ -2,17 +2,31 @@ package classi;
 
 import java.util.Objects;
 
+import enums.CategoriaVeicolo;
+
 /**
  * Value Object immutabile che rappresenta un veicolo nel sistema.
  * RI: targa != null && !targa.isBlank() && categoria != null
  */
 public class Veicolo {
     private final String targa;
-    private final  categoria;
+    private final CategoriaVeicolo categoria;
 
     // [Costruttore con controlli difensivi sulle Precondizioni]
-    
+    public Veicolo(String targa, CategoriaVeicolo categoria) {
+        this.targa = targa;
+        this.categoria = categoria;
+    }
+
     // [Getter per targa e categoria]
+    public String getTarga() {
+        return targa;
+    }
+
+    public CategoriaVeicolo getCategoria() {
+        return categoria;
+    }
+
 
     // Sovrascrittura fondamentale: due veicoli sono uguali se hanno la stessa targa
     @Override
@@ -32,4 +46,5 @@ public class Veicolo {
     public String toString() {
         return String.format("Veicolo[%s, %s]", targa, categoria);
     }
+
 }

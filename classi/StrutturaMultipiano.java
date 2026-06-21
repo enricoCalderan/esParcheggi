@@ -22,9 +22,6 @@ public class StrutturaMultipiano implements AreaSosta
         return tariffaOrariaBase;
     }
 
-    public String getID() {
-        return id;
-    }
     public double getTariffaOrariaBase() {
         return tariffaOrariaBase;
     }
