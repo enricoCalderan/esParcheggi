@@ -1,6 +1,6 @@
 package classi;
 
-public class StrutturaMultipiano implements areaSosta
+public class StrutturaMultipiano implements AreaSosta
 {
     private final String id;
     private final double tariffaOrariaBase;
