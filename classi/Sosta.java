@@ -8,7 +8,7 @@ import enums.StatoSosta;
 //stato concreto: campi final per memorizzare gli elementi della tupla
 //invariante: Campi non nulli e dataInizio precedente a dataFine
 public class Sosta {
-    private Veicolo veicolo;
+    private final Veicolo veicolo;
     private final AreaSosta zonaTariffaria;
     private LocalDateTime dataInizio;
     private LocalDateTime dataFine;
@@ -42,4 +42,5 @@ public class Sosta {
         return statoSosta;
     }
 
+    //f per termianre e allungare sosta
 }

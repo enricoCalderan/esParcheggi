@@ -3,15 +3,15 @@ package classi;
 public class StrutturaMultipiano implements AreaSosta
 {
     private final String id;
-    private final double tariffaOrariaBase;
+    private final double tariffaOraria;
 
-    public StrutturaMultipiano(String id, double tariffaOrariaBase) {
+    public StrutturaMultipiano(String id, double tariffaOraria) {
         this.id = id;
-        this.tariffaOrariaBase = tariffaOrariaBase;
+        this.tariffaOraria = tariffaOraria;
     }
 
     @Override
-    public String getId()
+    public String getStruttura()
     {
         return id;
     }
@@ -19,10 +19,7 @@ public class StrutturaMultipiano implements AreaSosta
     @Override
     public double getTariffa()
     {
-        return tariffaOrariaBase;
+        return tariffaOraria;
     }
 
-    public double getTariffaOrariaBase() {
-        return tariffaOrariaBase;
-    }
 }

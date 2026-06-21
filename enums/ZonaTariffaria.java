@@ -1,7 +1,7 @@
 package enums;
 public enum ZonaTariffaria {
-    AREA_1,
-    AREA_2,
-    AREA_3,
-    AREA_4
+    ZONA_A,
+    ZONA_B,
+    ZONA_C,
+    ZONA_D
 }
