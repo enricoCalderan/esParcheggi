@@ -8,10 +8,8 @@ public class ZonaStradale implements AreaSosta {
     private final ZonaTariffaria zona;
     private final double tariffaOraria; // Calcolata internamente
 
-    public ZonaStradale(String id, ZonaTariffaria zona, double tariffaOraria) {
-        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("ID vuoto");
+    public ZonaStradale( ZonaTariffaria zona, double tariffaOraria) {
         
-        this.id = id;
         this.zona = Objects.requireNonNull(zona);
         this.tariffaOraria = tariffaOraria;
     }

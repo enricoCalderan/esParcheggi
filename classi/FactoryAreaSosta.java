@@ -33,7 +33,7 @@ public class FactoryAreaSosta {
                 throw new IllegalArgumentException("Zona tariffaria non riconosciuta");
         }
         
-        return new ZonaStradale(id, zona, tariffaReale);
+        return new ZonaStradale( zona, tariffaReale);
     }
 
 
