@@ -1,18 +1,24 @@
 package Api;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Observer;
+import java.util.stream.Collectors;
 
+import Observer.Observer;
+import Query.QuerySoste;
 import Observer.ObservableImpl;
 import classi.AreaSosta;
 import classi.FactorySosta;
+import classi.ReportSoste;
 import classi.Sosta;
 import classi.Veicolo;
+import enums.CategoriaVeicolo;
 import enums.StatoSosta;
 
 
@@ -28,6 +34,12 @@ public class ManagerSosteImpl implements ManagerSoste , Observer{
         this.storicoSoste = new ArrayList<>();
     }
 
+
+    @Override
+    public Collection<Sosta> getStoricoSoste()
+    {
+        return storicoSoste;
+    }
 
     @Override
     public void avviaSosta(Veicolo veicolo, AreaSosta area, LocalDateTime inizio, LocalDateTime scadenzaPrevista)
@@ -54,7 +66,7 @@ public class ManagerSosteImpl implements ManagerSoste , Observer{
     
     @Override
     public void interrompiSosta(String targa, LocalDateTime oraStop) {
-        if (targa == null || targa.isBlank()) {
+        if (targa == null) {
             throw new IllegalArgumentException("Targa non valida");
         }
 
@@ -76,7 +88,7 @@ public class ManagerSosteImpl implements ManagerSoste , Observer{
                 .filter(s -> s.getVeicolo().getTarga().equalsIgnoreCase(targa))
                 .filter(s -> s.getArea().getId().equals(area.getId()))
                 .anyMatch(s -> {
-                    LocalDateTime fine = (s.getDataFineEffettiva() != null) ? s.getDataFineEffettiva() : s.getScadenzaPrevista();
+                    LocalDateTime fine = (s.getDataFineEffettiva() != null) ? s.getDataFineEffettiva() : s.getDataFine();
                     return !momento.isBefore(s.getDataInizio()) && !momento.isAfter(fine);
                 });
     }
@@ -103,5 +115,50 @@ public class ManagerSosteImpl implements ManagerSoste , Observer{
                 .filter(s -> !s.getDataInizio().isBefore(dataInizioRendiconto))
                 .mapToDouble(Sosta::getImporto) // Estrae l'importo da ogni sosta
                 .sum();                                 // Somma totale incassi
+    }
+
+    /**
+     * Genera il resoconto finanziario per una specifica giornata.
+     * Utilizza le funzioni di aggregazione degli Stream.
+     */
+    public ReportSoste generaReportGiornaliero(LocalDate data) {
+        if (data == null) {
+            throw new IllegalArgumentException("La data del report non può essere nulla");
+        }
+
+        // 1. Filtra lo storico usando il nostro Pattern Query!
+        List<Sosta> sosteDelGiorno = storicoSoste.stream()
+                .filter(QuerySoste.concluseInData(data)) // Usa il predicato creato prima
+                .toList(); // Equivalente moderno di Collectors.toList()
+
+        // 2. Calcola incassi raggruppati per ID dell'Area di Sosta
+        Map<String, Double> incassiArea = sosteDelGiorno.stream()
+                .collect(Collectors.groupingBy(
+                    sosta -> sosta.getArea().getId(),
+                    Collectors.summingDouble(Sosta::getImporto)
+                ));
+
+        // 3. Calcola incassi raggruppati per Categoria di Veicolo (es. quanto han pagato le Auto vs Moto)
+        Map<CategoriaVeicolo, Double> incassiCategoria = sosteDelGiorno.stream()
+                .collect(Collectors.groupingBy(
+                    sosta -> sosta.getVeicolo().getCategoria(),
+                    Collectors.summingDouble(Sosta::getImporto)
+                ));
+
+        // 4. Calcola i totali assoluti
+        double totaleIncassi = sosteDelGiorno.stream()
+                .mapToDouble(Sosta::getImporto)
+                .sum();
+                
+        int numeroSoste = sosteDelGiorno.size();
+
+        // 5. Ritorna il DTO immutabile
+        return new ReportSoste(
+            data,
+            incassiArea,
+            incassiCategoria,
+            totaleIncassi,
+            numeroSoste
+        );
     }
 }

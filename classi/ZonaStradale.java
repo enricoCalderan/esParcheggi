@@ -7,16 +7,18 @@ public class ZonaStradale implements AreaSosta {
 
     private final ZonaTariffaria zona;
     private final double tariffaOraria; // Calcolata internamente
+    private final String id;
 
-    public ZonaStradale( ZonaTariffaria zona, double tariffaOraria) {
+    public ZonaStradale( ZonaTariffaria zona, double tariffaOraria, String id) {
         
         this.zona = Objects.requireNonNull(zona);
         this.tariffaOraria = tariffaOraria;
+        this.id = id;
     }
 
     @Override
-    public String getStruttura() { 
-        return zona.toString();
+    public String getId() { 
+        return id;
     }
 
     @Override

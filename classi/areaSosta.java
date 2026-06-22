@@ -2,7 +2,7 @@ package classi;
 
 public interface AreaSosta {
 
-    public String getStruttura();
+    public String getId();
 
     public double getTariffa();
 

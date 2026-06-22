@@ -2,7 +2,6 @@ package Api;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Map;
 
 import Observer.ObservableImpl;
 import classi.AreaSosta;
@@ -11,7 +10,7 @@ import classi.Veicolo;
 
 public interface ManagerSoste {
 
-    Map<String,Sosta> getStoricoSoste();
+    Collection<Sosta> getStoricoSoste();
 
     public void avviaSosta(Veicolo veicolo, AreaSosta area, LocalDateTime inizio, LocalDateTime scadenzaPrevista);
     

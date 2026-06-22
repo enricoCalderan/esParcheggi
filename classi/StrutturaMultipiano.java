@@ -11,7 +11,7 @@ public class StrutturaMultipiano implements AreaSosta
     }
 
     @Override
-    public String getStruttura()
+    public String getId()
     {
         return id;
     }
