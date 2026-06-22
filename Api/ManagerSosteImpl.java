@@ -18,6 +18,7 @@ import classi.FactorySosta;
 import classi.ReportSoste;
 import classi.Sosta;
 import classi.Veicolo;
+import eccezioni.VeicoloGiaParcheggiatoException;
 import enums.CategoriaVeicolo;
 import enums.StatoSosta;
 
@@ -42,7 +43,7 @@ public class ManagerSosteImpl implements ManagerSoste , Observer{
     }
 
     @Override
-    public void avviaSosta(Veicolo veicolo, AreaSosta area, LocalDateTime inizio, LocalDateTime scadenzaPrevista)
+    public void avviaSosta(Veicolo veicolo, AreaSosta area, LocalDateTime inizio, LocalDateTime scadenzaPrevista) throws VeicoloGiaParcheggiatoException;
     {
         Objects.requireNonNull(veicolo, "Veicolo obbligatorio");
         String targa = veicolo.getTarga().toUpperCase();

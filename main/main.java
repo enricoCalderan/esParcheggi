@@ -4,6 +4,7 @@ import Api.ManagerSosteImpl;
 import classi.AreaSosta;
 import classi.FactoryAreaSosta;
 import classi.Veicolo;
+import eccezioni.VeicoloGiaParcheggiatoException;
 import enums.CategoriaVeicolo;
 import enums.ZonaTariffaria;
 
@@ -15,7 +16,8 @@ public class Main {
 
         // 1. Inizializzazione del Manager (Il cuore del sistema)
         ManagerSosteImpl manager = new ManagerSosteImpl();
-
+        
+        
         // 2. Creazione della "Città" (Aree di Sosta)
         // ATTENZIONE: Usiamo la FactoryAreaSosta, impedendo al programmatore di inventarsi i prezzi!
         AreaSosta centro = FactoryAreaSosta.creaZonaStradale("Z-01", ZonaTariffaria.ZONA_A);
@@ -30,9 +32,14 @@ public class Main {
         LocalDateTime oraIngresso = LocalDateTime.now().withHour(10).withMinute(0);
 
         System.out.println("--- INGRESSO VEICOLI ---");
+
         // Il manager chiama internamente la FactorySosta e fa scattare il pattern Observer
-        manager.avviaSosta(auto, centro, oraIngresso, oraIngresso.plusHours(2));
-        System.out.println("L'Auto " + auto.getTarga() + " ha parcheggiato in " + centro.getId() + " per 2 ore previste.");
+        try {
+            manager.avviaSosta(auto, centro, LocalDateTime.now(), LocalDateTime.now().plusHours(1));
+            System.out.println("Auto parcheggiata con successo!");
+        } catch ( VeicoloGiaParcheggiatoException e) {
+            System.out.println("Si è verificato un errore.");
+        }
 
         manager.avviaSosta(moto, multipiano, oraIngresso, oraIngresso.plusHours(3));
         System.out.println("La Moto " + moto.getTarga() + " ha parcheggiato nel multipiano per 3 ore previste.");
@@ -44,6 +51,10 @@ public class Main {
         System.out.println("--- CONTROLLO VIGILI (Ore 11:00) ---");
         boolean autoRegolare = manager.verificaRegolarita("AB123CD", centro, oraIngresso.plusHours(1));
         System.out.println("L'auto AB123CD è in regola? " + (autoRegolare ? "SI" : "NO") + "\n");
+
+
+        
+
 
         // 6. Test del Pattern OBSERVER: L'auto decide di andarsene prima del tempo
         System.out.println("--- USCITA ANTICIPATA ---");
