@@ -43,14 +43,15 @@ public class ManagerSosteImpl implements ManagerSoste , Observer{
     }
 
     @Override
-    public void avviaSosta(Veicolo veicolo, AreaSosta area, LocalDateTime inizio, LocalDateTime scadenzaPrevista) throws VeicoloGiaParcheggiatoException;
+    public void avviaSosta(Veicolo veicolo, AreaSosta area, LocalDateTime inizio, LocalDateTime scadenzaPrevista) throws VeicoloGiaParcheggiatoException
     {
         Objects.requireNonNull(veicolo, "Veicolo obbligatorio");
         String targa = veicolo.getTarga().toUpperCase();
 
         // Controllo difensivo per impedire doppie soste simultanee
         if (sosteAttive.containsKey(targa)) {
-            throw new IllegalStateException("Il veicolo " + targa + " ha già una sosta in corso.");
+            // Ora il compilatore accetterà tranquillamente questo lancio!
+            throw new VeicoloGiaParcheggiatoException(targa);
         }
 
         // 1. Creazione tramite la Factory

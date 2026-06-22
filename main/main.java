@@ -41,11 +41,22 @@ public class Main {
             System.out.println("Si è verificato un errore.");
         }
 
-        manager.avviaSosta(moto, multipiano, oraIngresso, oraIngresso.plusHours(3));
-        System.out.println("La Moto " + moto.getTarga() + " ha parcheggiato nel multipiano per 3 ore previste.");
+        try{
+            manager.avviaSosta(moto, multipiano, oraIngresso, oraIngresso.plusHours(3));
+            System.out.println("La Moto " + moto.getTarga() + " ha parcheggiato nel multipiano per 3 ore previste.");
+        }catch ( VeicoloGiaParcheggiatoException e) {
+            System.out.println("Si è verificato un errore.");
+        }
+        
+        try{
+            manager.avviaSosta(ambulanza, centro, oraIngresso, oraIngresso.plusHours(5));
+            System.out.println("L'Ambulanza " + ambulanza.getTarga() + " ha parcheggiato in emergenza per 5 ore.\n");
+        }catch ( VeicoloGiaParcheggiatoException e) {
+            System.out.println("Si è verificato un errore.");
+        }
+        
 
-        manager.avviaSosta(ambulanza, centro, oraIngresso, oraIngresso.plusHours(5));
-        System.out.println("L'Ambulanza " + ambulanza.getTarga() + " ha parcheggiato in emergenza per 5 ore.\n");
+        
 
         // 5. I vigili passano e fanno un controllo
         System.out.println("--- CONTROLLO VIGILI (Ore 11:00) ---");
