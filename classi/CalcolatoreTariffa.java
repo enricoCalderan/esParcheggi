@@ -1,11 +1,7 @@
 package classi;
 
-public class Calcolatoretariffe {
-    package classi;
-
 import enums.CategoriaVeicolo;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -16,6 +12,12 @@ public class CalcolatoreTariffa {
     // Costanti per la fascia oraria gratuita (20:00 - 07:00 del mattino successivo)
     private static final LocalTime INIZIO_FASCIA_GRATUITA = LocalTime.of(20, 0);
     private static final LocalTime FINE_FASCIA_GRATUITA = LocalTime.of(7, 0);
+
+
+    public CalcolatoreTariffa()
+    {
+
+    }
 
     /**
      * Calcola l'importo totale dovuto per una sosta.
@@ -45,8 +47,8 @@ public class CalcolatoreTariffa {
             cursore = cursore.plusMinutes(1);
         }
 
-        double importoGrezzo = minutiFatturabili * tariffaAlMinutoBase;
-        return arrotonda(importoGrezzo * moltiplicatoreVeicolo);
+        double importo = minutiFatturabili * tariffaAlMinutoBase;
+        return importo;
     }
 
 

@@ -1,20 +1,24 @@
 package Api;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 
+import Observer.ObservableImpl;
+import classi.AreaSosta;
 import classi.Sosta;
+import classi.Veicolo;
 
 public interface ManagerSoste {
 
     Map<String,Sosta> getStoricoSoste();
 
-    public void avviaSosta();
+    public void avviaSosta(Veicolo veicolo, AreaSosta area, LocalDateTime inizio, LocalDateTime scadenzaPrevista);
     
-    public void interrompiSosta();
+    public void interrompiSosta(String targa, LocalDateTime oraStop);
     
-    public double calcolaSosta();
+    public boolean verificaRegolarita(String targa, AreaSosta area, LocalDateTime momento);
 
-    public boolean sostaRegolare();
+    public void update(ObservableImpl o);
 
 }
